@@ -1,13 +1,24 @@
 services:
+  app:
+    build: ./app
+    container_name: wisdom-app
+    ports:
+      - "8080:8080"
+    env_file:
+      - "./app/.env"
+    volumes:
+      - ./app:/app
+    networks:
+      - net_microservice
   db:
     image: postgres:17.2-alpine
-    container_name: db_microservice
+    container_name: wisdom-db
     ports:
       - "54322:5432"
     environment:
-      POSTGRES_DB: db_microservice
-      POSTGRES_USER: db_microservice_user
-      POSTGRES_PASSWORD: db_microservice_password
+      POSTGRES_DB: wisdom_db
+      POSTGRES_USER: wisdom_db_user
+      POSTGRES_PASSWORD: wisdom_db_pass
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./data:/data
